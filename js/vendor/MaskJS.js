@@ -1,194 +1,75 @@
-(function(elementoPrincipal, factory) {
-        if (typeof define === 'function' && define.amd) {
-            define(factory);
-        } else if (typeof exports === 'object') {
-            module.exports = factory();
-        } else {
-            elementoPrincipal.MaskJS = factory();
-        }
+const nome = document.querySelector("#nome");
+const endereco = document.querySelector("#end");
+const cidade = document.querySelector("#city");
+const estado = document.querySelector("#uf");
+const telefone = document.querySelector("#tel");
+const celular = document.querySelector("#cel");
+const emailErro = document.querySelector("#emailErro");
+const email = document.querySelector("#email");
+const profissao = document.querySelector("#prof");
+const erroMotivo = document.querySelector("#motivoErro");
+const motivoSolicitacao = document.querySelector(".motivoSolicitacao");
+const erroTel = document.querySelector("#telErro");
+const rg = document.querySelector("#rg");
+const cnh = document.querySelector("#cnh");
+const cpf = document.querySelector("#cpf");
+const titulo = document.querySelector("#titulo");
+const passaporte = document.querySelector("#pass");
+let erro = false;
+
+MaskJS(nome).mascararPalavras();
+
+MaskJS(endereco).mascararAlfanumerico();
+
+MaskJS(cidade).mascararLetras();
+
+MaskJS(estado).mascararPadrao("AA");
+
+MaskJS(telefone).mascararPadrao("(99) 9999-9999");
+
+MaskJS(celular).mascararPadrao("(99) 9-9999-9999");
+
+const validarEmail = valor => {
+    let padrao = /[\w]{1,}[@]{1}[\w]{1}[.]{1}[\w]{1,}/gi;
+    if(padrao.test(valor)){
+       emailErro.innerText = " ";
+    } else {
+       emailErro.innerText = "Email invalido.";
+       erro = true;
     }
-)( this, function () {
-    const NUMERO = "9",
-        LETRA = "A",
-        LETRA_E_NUMERO = "S",
-        TECLAS_PROIBIDAS = [9, 16, 17, 18, 36, 37, 38, 39, 40, 91, 92, 93],
-        teclaPermitida = function (codigoTecla) {
-            for (let i = 0; i < TECLAS_PROIBIDAS.length; i++) {
-                if (codigoTecla === TECLAS_PROIBIDAS[i]) {
-                    return false;
-                }
-                return true;
-            }
-        },
-        mesclarOpcoesMoeda = function (opcoes) {
-            opcoes = opcoes || {};
-            opcoes = {
-                casasDecimais: opcoes.hasOwnProperty("casasDecimais") ? opcoes.casasDecimais : 2,
-                separadorDecimal: opcoes.separadorDecimal || ",",
-                separadorMilhar: opcoes.separadorMilhar || ".",
-                simboloMoeda: opcoes.simboloMoeda && (opcoes.simboloMoeda.replace(/[\s]/g, '') + " ") || "",
-                simboloMoedaNoFinal: opcoes.simboloMoedaNoFinal && (" " + opcoes.simboloMoedaNoFinal.replace(/[\s]/g, '')) || "",
-                zeroCentavos: opcoes.zeroCentavos,
-                saidaExibida: opcoes.saidaExibida
-            };
-            opcoes.precisao = opcoes.zeroCentavos ? 0 : opcoes.casasDecimais;
-            return opcoes;
-        },
-        adicionarPlaceholderNaSaida = function (saida, index, placeholder) {
-            for (; index < saida.length; index++) {
-                if (saida[index] === NUMERO || saida[index] === LETRA || saida[index] === LETRA_E_NUMERO) {
-                    saida[index] = placeholder;
-                }
-            }
-            return saida;
-        }
-    ;
+}
 
-    // Objeto principal
-    const MaskJS = function (el) {
-        if (!el || !el instanceof HTMLElement) {
-            throw new Error("");
-        }
-        const elementos = ("length" in el) ? (el.length ? el : []) : [el];
-        return new ClassMascarar(elementos);
+MaskJS(profissao).mascararLetras();
 
-    };
+const validarMotivo = valor =>{
+	const padraoMotivo = ["Trabalho", "Turismo", "Estudo", "SairdoPais"];
+	if (padraoMotivo.indexOf(valor)) {
+		erroMotivo.innerText = " ";
+	}else {
+		erroMotivo.innerText = "Motivo invalido.";
+		erro = true;
+	}
+}
 
-    // Classe das mascaras
-    const ClassMascarar = function (elementos) {
-        this.elementos = elementos;
-    };
+MaskJS(rg).mascararPadrao("9999999999-9");
 
-    ClassMascarar.prototype.desvincularMascara = function () {
-        for (let i = 0, len = this.elementos.length; i < len; i++) {
-            this.elementos[i].saidaExibida = "";
-            this.elementos[i].onkeyup = false;
-            this.elementos[i].onkeydown = false;
+MaskJS(cnh).mascararPadrao("99999999999");
 
-            if (this.elementos[i].value.length) {
-                this.elementos[i].value = this.elementos[i].value.replace(/\D/g, '');
-            }
-        }
-    };
+MaskJS(cpf).mascararPadrao("999.999.999-99");
 
-    ClassMascarar.prototype.vincularMascara = function (funcaoDeMascara) {
-        const that = this,
-            aoDigitar = function (e) {
-                e = e || window.event;
-                const origem = e.target || e.srcElement;
+MaskJS(titulo).mascararPadrao("9999 9999 9999");
 
-                if (teclaPermitida(e.keyCode)) {
-                    setTimeout(function () {
-                        that.opcoes.saidaExibida = origem.saidaExibida;
-                        origem.value = MaskJS[funcaoDeMascara](origem.value, that.opcoes);
-                        origem.saidaExibida = origem.value;
-                    }, 0);
-                }
-            };
+MaskJS(passaporte).mascararPadrao("AA999999");
 
-        for( let i = 0; i < this.elementos.length; i++){
-            this.elementos[i].saidaExibida = "";
-            this.elementos[i].onkeyup = aoDigitar;
-            if (this.elementos[i].value.length) {
-                this.elementos[i].value = MaskJS[funcaoDeMascara](this.elementos[i].value, this.opcoes);
-            }
-        }
+const validarFormulario = function(){
+	erro = false;
+	validarEmail(email.value);
+	validarMotivo(motivoSolicitacao.value);
+}
 
-    };
-
-    MaskJS.paraNumero = function (valor) {
-        return valor.toString().replace(/(?!^-)[^0-9]/g, "");
-    };
-
-    MaskJS.paraAlfanumerico = function(valor) {
-        return valor.toString().replace(/[^a-z0-9 ]+/i, "");
-    };
-
-    MaskJS.paraLetras = function(valor) {
-        return valor.toString().replace(/[^a-z]+/i, "");
-    };
-
-    MaskJS.paraPalavras = function(valor) {
-        return valor.toString().replace(/()[^a-z\s]+/gi, "");
-    };
-
-    MaskJS.paraEmail = function(valor) {
-        return valor.toString().replace(/[\w]{1,}[@]{1}[\w]{1}[.]{1}[\w]{1,}/gi, "");
-    }
-    ClassMascarar.prototype.mascararNumero = function () {
-        this.opcoes = {};
-        this.vincularMascara("paraNumero");
-    };
-
-    ClassMascarar.prototype.mascararAlfanumerico = function () {
-        this.opcoes = {};
-        this.vincularMascara("paraAlfanumerico");
-    };
-
-    ClassMascarar.prototype.mascararLetras = function () {
-        this.opcoes = {};
-        this.vincularMascara("paraLetras");
-    };
-
-    ClassMascarar.prototype.mascararPalavras = function () {
-        this.opcoes = {};
-        this.vincularMascara("paraPalavras");
-    };
-
-    ClassMascarar.prototype.mascararEmail = function () {
-        this.opcoes = {};
-        this.vincularMascara("paraEmail");
-    };
-        
-    MaskJS.paraPadrao = function(valor, opcoes) {
-        let padrao = (typeof opcoes === 'object' ? opcoes.padrao : opcoes),
-            padraoChars = padrao.replace(/\W/g, ''),
-            saida = padrao.split(""),
-            valores = valor.toString().replace(/\W/g, ""),
-            valoresChars = valores.replace(/\W/g, ''),
-            index = 0,
-            i,
-            tamanhoSaida = saida.length,
-            placeholder = (typeof opcoes === 'object' ? opcoes.placeholder : undefined)
-        ;
-            
-        for (i = 0; i < tamanhoSaida; i++) {
-            // Reached the end of input
-            if (index >= valores.length) {
-                if (padraoChars.length == valoresChars.length) {
-                    return saida.join("");
-                }
-                else if ((placeholder !== undefined) && (padraoChars.length > valoresChars.length)) {
-                    return adicionarPlaceholderNaSaida(saida, i, placeholder).join("");
-                }
-                else {
-                    break;
-                }
-            }
-            // Remaining chars in input
-            else{
-                if ((saida[i] === NUMERO && valores[index].match(/[0-9]/)) ||
-                    (saida[i] === LETRA && valores[index].match(/[a-zA-Z]/)) ||
-                    (saida[i] === LETRA_E_NUMERO && valores[index].match(/[0-9a-zA-Z]/))) {
-                    saida[i] = valores[index++];
-                } else if (saida[i] === NUMERO || saida[i] === LETRA || saida[i] === LETRA_E_NUMERO) {
-                    if(placeholder !== undefined){
-                        return adicionarPlaceholderNaSaida(saida, i, placeholder).join("");
-                    }
-                    else{
-                        return saida.slice(0, i).join("");
-                    }
-                }
-            }
-        }
-        return saida.join("").substr(0, i);
-    };
-        
-    ClassMascarar.prototype.mascararPadrao = function(padrao) {
-        this.opcoes = {padrao: padrao};
-        this.vincularMascara("paraPadrao");
-    };    
-
-    return MaskJS;
-
-});
+form.onsubmit = function(e){
+	validarFormulario();
+	if(erro) {
+		e.preventDefault();
+	}
+}
