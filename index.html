@@ -2,6 +2,7 @@
 <html>
 <head>
 	<title>Solitar Passaporte</title>
+	<link rel="stylesheet" href="style.css">
 </head>
 <body>
 	<form action="index2.html">
@@ -32,21 +33,24 @@
 			<br> </br>
 
 			<label>EMAIL:</label> 
-			<input type="text" id="email"/>
+			<input type="text" id="email" onblur="validarEmail(this.value);"/>
+			<span id="emailErro"></span>
 			<br> </br>
 
 			<label>PROFISSÃO: </label>
 			<input type="text" id="prof"/>
 			<br> </br>
 
-			<label>MOTIVO DA SOLICITAÇÃO: </label> 
+			<p class="motivoSolicitacao" onblur="validarMotivo(this.value);">
+				<label>MOTIVO DA SOLICITAÇÃO: </label> 
         		<select name="motivo" form="motivo">
           			<option value="trabalho">TRABALHO</option>
           			<option value="turismo">TURISMO</option>
           			<option value="estudo">ESTUDO</option>
           			<option value="sair">SAIR DO PAÍS</option>
-        	</select>
-        	<br> </br>
+        		</select>
+        	</p>
+        	<span id="motivoErro"></span>
 
 			<label>RG: </label> 
 			<input type="text" id="rg"/>
@@ -64,19 +68,37 @@
 			<input type="text" id="titulo"/>
 			<br> </br>
 
-			<label>TEM PASSAPORTE ANTIGO?</label>
-			<input type="radio" name="webmaster" value="sim"/> Sim
-			<input type="radio" name="webmaster" value="nao"/> Não
-			<br> </br>
+			<p>
+				<label >TEM PASSAPORTE ANTIGO?</label>
+				<input type="radio" value="Sim" onclick="myFunctionS(this.value);"/>
+				<label >Sim</label>
+				<input type="radio" value="Nao" onclick="myFunctionN(this.value);"/>
+				<label> Nao </label>
+			</p>
 
-			<label>NÚMERO DO PASSAPORTE</label> 
-			<input type="text" id="pass"/>
-			<br></br>
+			<p id="pass">
+				<label for="pass">NÚMERO DO PASSAPORTE</label> 
+				<input type="text" id="pass"/>
+				<br></br>
+			</p>
 
-			<button>Cadastrar</button>
+			<p class="submit">
+				<input type="submit" value="Enviar">
+			</p>
+
 		</fieldset>
 	</form>
 
+	
+		<script type="text/javascript">
+   			function myFunctionS() {
+    		  	document.getElementById("pass").style.display = "block";
+    		}
+    		function myFunctionN() {
+      			document.getElementById("pass").style.display = "none";
+    		}
+
+		</script>
 	 	 <script src="js/vendor/MaskJS.js"></script>
  		 <script src="js/main.js"></script>
 </body>
