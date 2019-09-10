@@ -9,6 +9,7 @@ const email = document.querySelector("#email");
 const profissao = document.querySelector("#prof");
 const erroMotivo = document.querySelector("#motivoErro");
 const motivoSolicitacao = document.querySelector(".motivoSolicitacao");
+const erroTel = document.querySelector("#telErro");
 const rg = document.querySelector("#rg");
 const cnh = document.querySelector("#cnh");
 const cpf = document.querySelector("#cpf");
@@ -28,6 +29,19 @@ MaskJS(telefone).mascararPadrao("(99) 9999-9999");
 
 MaskJS(celular).mascararPadrao("(99) 9-9999-9999");
 
+MaskJS(rg).mascararPadrao("9999999999-9");
+
+MaskJS(cnh).mascararPadrao("9999999999999");
+
+MaskJS(cpf).mascararPadrao("999.999.999-99");
+
+MaskJS(titulo).mascararPadrao("9999 9999 9999");
+
+MaskJS(passaporte).mascararPadrao("AA999999");
+
+MaskJS(profissao).mascararLetras();
+
+
 const validarEmail = valor => {
     let padrao = /[\w]{1,}[@]{1}[\w]{1}[.]{1}[\w]{1,}/gi;
     if(padrao.test(valor)){
@@ -38,8 +52,6 @@ const validarEmail = valor => {
     }
 }
 
-MaskJS(profissao).mascararLetras();
-
 const validarMotivo = valor =>{
 	const padraoMotivo = ["Trabalho", "Turismo", "Estudo", "SairdoPais"];
 	if (padraoMotivo.indexOf(valor)) {
@@ -49,16 +61,6 @@ const validarMotivo = valor =>{
 		erro = true;
 	}
 }
-
-MaskJS(rg).mascararPadrao("9999999999-9");
-
-MaskJS(cnh).mascararPadrao("99999999999");
-
-MaskJS(cpf).mascararPadrao("999.999.999-99");
-
-MaskJS(titulo).mascararPadrao("9999 9999 9999");
-
-MaskJS(passaporte).mascararPadrao("AA999999");
 
 const validarFormulario = function(){
 	erro = false;
