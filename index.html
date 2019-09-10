@@ -6,8 +6,8 @@
 </head>
 <body>
 	<form action="index2.html">
-		<fieldset>
-			<legend>DADOS CADASTRAIS</legend>
+		<fieldset >
+			<legend>CADASTRO DE PASSAPORTE</legend>
 			<label>NOME: </label>
 			<input type="text" id="nome"/>
 			<br> </br>
@@ -57,7 +57,7 @@
 			<br> </br>
 
 			<label>CNH: </label>
-			<input type="text" id="chn"/>
+			<input type="text" id="cnh"/>
 			<br> </br>
 
 			<label>CPF: </label>
@@ -68,12 +68,12 @@
 			<input type="text" id="titulo"/>
 			<br> </br>
 
-			<p>
-				<label >TEM PASSAPORTE ANTIGO?</label>
+			<p class="passA">
+				<label for="passA">TEM PASSAPORTE ANTIGO?</label>
 				<input type="radio" value="Sim" onclick="myFunctionS(this.value);"/>
-				<label >Sim</label>
+				<label for="passA">Sim</label>
 				<input type="radio" value="Nao" onclick="myFunctionN(this.value);"/>
-				<label> Nao </label>
+				<label for="passA">Nao</label>
 			</p>
 
 			<p id="pass">
