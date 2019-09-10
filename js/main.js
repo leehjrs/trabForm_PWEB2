@@ -9,7 +9,6 @@ const email = document.querySelector("#email");
 const profissao = document.querySelector("#prof");
 const erroMotivo = document.querySelector("#motivoErro");
 const motivoSolicitacao = document.querySelector(".motivoSolicitacao");
-const erroTel = document.querySelector("#telErro");
 const rg = document.querySelector("#rg");
 const cnh = document.querySelector("#cnh");
 const cpf = document.querySelector("#cpf");
